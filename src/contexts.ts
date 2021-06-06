@@ -10,12 +10,12 @@ export type ScrollState = {
 };
 
 export const SlipContext = React.createContext<{
-  slip: { slug: string; data: any }[];
+  slips: { slug: string; data: any }[];
   slipStates: ScrollState;
   navigateToSlip: (to: string, index?: number) => void;
   highlightSlip: (slug: string, highlighted?: boolean) => void;
 }>({
-  slip: [],
+  slips: [],
   slipStates: {},
   navigateToSlip: () => {},
   highlightSlip: () => {},

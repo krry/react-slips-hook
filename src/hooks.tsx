@@ -94,7 +94,7 @@ export function useSlipsProvider<T>({
 }) {
   const previousFirstPage = useRef(firstPage);
   const [scroll, containerWidth, setRef, containerRef] = useScroll();
-  const [slip, setSlip] = useState<{ slug: string; data: T }[]>(
+  const [slips, setSlips] = useState<{ slug: string; data: T }[]>(
     getRoot(firstPage, processPageQuery)
   );
   const [slipStates, setSlipStates] = useState<ScrollState>(
@@ -111,7 +111,7 @@ export function useSlipsProvider<T>({
   );
 
   const slipSlugs = useMemo(() => {
-    const res = qs.parse(location.search.replace(/^\?/, "")).slip || [];
+    const res = qs.parse(location.search.replace(/^\?/, "")).slips || [];
     if (typeof res === "string") {
       return [res];
     }
@@ -122,13 +122,13 @@ export function useSlipsProvider<T>({
     if (equal(firstPage, previousFirstPage.current)) {
       return;
     }
-    setSlip((pages) => {
+    setSlips((pages) => {
       return getRoot(firstPage, processPageQuery).concat(
         previousFirstPage.current ? pages.slice(1) : pages
       );
     });
     previousFirstPage.current = firstPage;
-  }, [firstPage, processPageQuery, setSlip]);
+  }, [firstPage, processPageQuery, setSlips]);
 
   useEffect(() => {
     if (!window.___loader) {
@@ -141,7 +141,7 @@ export function useSlipsProvider<T>({
       // hook into the internals of Gatsby to dynamically fetch the notes
       slipSlugs.map((slug) => window.___loader.loadPage(slug))
     ).then((data) =>
-      setSlip(
+      setSlips(
         getRoot(firstPage, processPageQuery).concat(
           // filter out 404s
           data
@@ -161,11 +161,11 @@ export function useSlipsProvider<T>({
     if (containerRef.current) {
       containerRef.current.scrollTo({
         top: 0,
-        left: pageWidth * (slip.length + 1),
+        left: pageWidth * (slips.length + 1),
         behavior: "smooth",
       });
     }
-  }, [slip, containerRef]);
+  }, [slips, containerRef]);
 
   // on scroll or on new page
   useEffect(() => {
@@ -173,7 +173,7 @@ export function useSlipsProvider<T>({
 
     if (!containerRef.current) {
       setSlipStates(
-        slip.reduce((prev, x, i, a) => {
+        slips.reduce((prev, x, i, a) => {
           prev[x.slug] = {
             overlay: true,
             obstructed: false,
@@ -187,7 +187,7 @@ export function useSlipsProvider<T>({
     }
 
     setSlipStates(
-      slip.reduce((prev, x, i, a) => {
+      slips.reduce((prev, x, i, a) => {
         prev[x.slug] = {
           highlighted: false,
           overlay:
@@ -209,11 +209,11 @@ export function useSlipsProvider<T>({
         return prev;
       }, acc)
     );
-  }, [slip, containerRef, scroll, setSlipStates]);
+  }, [slips, containerRef, scroll, setSlipStates]);
 
   const navigateToSlip = useCallback(
     (to: string, index: number = 0) => {
-      const existingPage = slip.findIndex((x) => x.slug === to);
+      const existingPage = slips.findIndex((x) => x.slug === to);
       if (existingPage !== -1 && containerRef && containerRef.current) {
         setSlipStates((slipStates) => {
           if (!slipStates[to]) {
@@ -237,7 +237,7 @@ export function useSlipsProvider<T>({
         return;
       }
       const search = qs.parse(window.location.search.replace(/^\?/, ""));
-      search.slip = slip
+      search.slips = slips
         .slice(1, index + 1)
         .map((x) => x.slug)
         .concat(to);
@@ -248,7 +248,7 @@ export function useSlipsProvider<T>({
         )}?${qs.stringify(search)}`.replace(/^\/\//, "/")
       );
     },
-    [slip, setSlipStates]
+    [slips, setSlipStates]
   );
 
   const highlightSlip = useCallback(
@@ -274,13 +274,13 @@ export function useSlipsProvider<T>({
 
   const contextValue = useMemo(
     () => ({
-      slip,
+      slips,
       navigateToSlip,
       highlightSlip,
       slipStates,
     }),
     [
-      slip,
+      slips,
       navigateToSlip,
       highlightSlip,
       slipStates,
@@ -292,7 +292,7 @@ export function useSlipsProvider<T>({
 
 export function useSlips() {
   const {
-    slip,
+    slips,
     slipStates,
     navigateToSlip,
     highlightSlip,
@@ -305,7 +305,7 @@ export function useSlips() {
   );
 
   return [
-    slip,
+    slips,
     slipStates,
     hookedNavigateToSlip,
     highlightSlip,
@@ -314,7 +314,7 @@ export function useSlips() {
 
 export function useSlip() {
   const {
-    slip,
+    slips,
     slipStates,
     navigateToSlip,
     highlightSlip,
@@ -326,7 +326,7 @@ export function useSlip() {
     [navigateToSlip, index]
   );
 
-  const currentPage = slip[index];
+  const currentPage = slips[index];
 
   return [
     currentPage,

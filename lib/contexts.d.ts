@@ -8,7 +8,7 @@ export declare type ScrollState = {
     };
 };
 export declare const SlipContext: React.Context<{
-    slip: {
+    slips: {
         slug: string;
         data: any;
     }[];
@@ -18,7 +18,7 @@ export declare const SlipContext: React.Context<{
 }>;
 export declare const SlipIndexContext: React.Context<number>;
 export declare const SlipProvider: React.Provider<{
-    slip: {
+    slips: {
         slug: string;
         data: any;
     }[];

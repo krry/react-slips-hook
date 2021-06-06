@@ -16,7 +16,7 @@ export declare function useSlipsProvider<T>({ location, processPageQuery, firstP
     pageWidth?: number;
     obstructedPageWidth?: number;
 }): (((node: HTMLDivElement) => void) | {
-    slip: {
+    slips: {
         slug: string;
         data: T;
     }[];
