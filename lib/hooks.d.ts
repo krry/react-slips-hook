@@ -6,7 +6,7 @@ declare global {
         };
     }
 }
-export declare function useSlipProvider<T>({ location, processPageQuery, firstPage, pageWidth, obstructedPageWidth, }: {
+export declare function useSlipsProvider<T>({ location, processPageQuery, firstPage, pageWidth, obstructedPageWidth, }: {
     location: Location;
     processPageQuery?: (queryResult: any, slug: string) => T | null;
     firstPage?: {

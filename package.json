@@ -4,7 +4,7 @@
   "description": "Display and layer pages as slips in Gatsby",
   "main": "lib/index.js",
   "scripts": {
-    "build": "npm run clean && ../../node_modules/.bin/tsc -p ./tsconfig.json",
+    "build": "npm run clean && tsc -p ./tsconfig.json",
     "watch": "npm run build -- --watch",
     "clean": "rm -rf lib",
     "prepublishOnly": "npm run build",
@@ -23,7 +23,9 @@
     "lib"
   ],
   "author": "Kerry Snyder <kerry@atmanaut.me>",
-  "contributors": ["Mathieu Dutour <mathieu@dutour.me>"],
+  "contributors": [
+    "Mathieu Dutour <mathieu@dutour.me>"
+  ],
   "repository": {
     "url": "https://github.com/krry/react-slips-hook",
     "directory": "packages/react-slips-hook"
@@ -34,6 +36,7 @@
     "react": "*"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.23",
     "@types/lodash.isequal": "^4.5.5",
     "@types/lodash.throttle": "^4.1.6",
     "@types/react": "^16.9.35",
@@ -44,6 +47,7 @@
   },
   "dependencies": {
     "lodash.isequal": "^4.5.0",
-    "lodash.throttle": "^4.1.1"
+    "lodash.throttle": "^4.1.1",
+    "typescript": "^4.3.2"
   }
 }
