@@ -1,6 +1,6 @@
 {
   "name": "react-slips-hook",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Display and layer pages as slips in Gatsby",
   "main": "lib/index.js",
   "scripts": {
